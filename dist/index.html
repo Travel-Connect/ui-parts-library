@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2457e8">
+  <meta name="description" content="UIの見た目と名前をつなぐパーツライブラリ。8種類のサンプルを探し、動かして、比較できます。">
+  <title>PARTS — UIパーツライブラリ</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">パーツ一覧へ</a>
+  <aside class="sidebar">
+    <a href="./" class="brand" aria-label="PARTS ホーム"><span class="brand-mark"><i></i><i></i><i></i><i></i></span>PARTS<span class="brand-dot">.</span></a>
+    <p class="sidebar-caption">YOUR INTERFACE LIBRARY</p>
+    <nav aria-label="ライブラリ">
+      <p class="nav-heading">ライブラリ</p>
+      <button class="nav-item active" data-filter="all"><span data-icon="grid"></span><span>すべてのパーツ</span><span class="count">8</span></button>
+      <button class="nav-item" data-filter="saved"><span data-icon="bookmark"></span><span>お気に入り</span><span class="count" id="saved-count">0</span></button>
+      <p class="nav-heading category-heading">カテゴリ</p>
+      <button class="nav-item" data-filter="overlay"><span data-icon="layers"></span><span>重ねて表示</span><span class="count">3</span></button>
+      <button class="nav-item" data-filter="navigation"><span data-icon="command"></span><span>操作・移動</span><span class="count">2</span></button>
+      <button class="nav-item" data-filter="input"><span data-icon="sliders"></span><span>入力・選択</span><span class="count">1</span></button>
+      <button class="nav-item" data-filter="information"><span data-icon="table"></span><span>情報・状態</span><span class="count">2</span></button>
+    </nav>
+    <div class="sidebar-bottom"><span class="edition">FIRST COLLECTION <span>01</span></span><p>名前がわからなくても、<br>見た目から見つかる。</p><div class="edition-foot">8 components <span>Prototype</span></div></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div><span class="breadcrumb-icon" data-icon="library"></span><span>ライブラリ</span><span class="slash">/</span><span id="breadcrumb">すべてのパーツ</span></div><span class="sample-label">サンプルコレクション <b>v0.1</b></span></header>
+    <main id="main">
+      <div class="page-heading"><div><div class="eyebrow">THE BUILDING BLOCKS</div><h1>UIパーツを探す<span class="title-period">.</span></h1><p>見つけて、動かして、次の画面づくりへ。</p></div><div class="collection-number" aria-hidden="true">08<span>PARTS TO EXPLORE</span></div></div>
+      <div class="searchbar"><span data-icon="search"></span><input id="search" type="search" aria-label="パーツを検索" placeholder="名前や用途で検索… 例：右から出る、一覧、通知" autocomplete="off"><kbd aria-hidden="true">/</kbd></div>
+      <div class="collection-toolbar"><div class="result-summary"><h2 id="collection-title">すべてのパーツ</h2><span id="result-count" role="status">8 件</span></div><div class="view-controls"><label class="sort-label"><span class="sr-only">並び順</span><select id="sort"><option value="collection">コレクション順</option><option value="name">名前順 A–Z</option></select></label><div class="segmented" role="group" aria-label="一覧の表示形式"><button id="grid-view" class="selected" aria-label="カード表示" aria-pressed="true"><span data-icon="grid"></span></button><button id="list-view" aria-label="リスト表示" aria-pressed="false"><span data-icon="list"></span></button></div></div></div>
+      <section class="parts-grid" id="parts-grid" aria-label="UIパーツ一覧"></section>
+      <div class="empty-state" id="empty-state" hidden><span data-icon="search"></span><h3>見つかりませんでした</h3><p>別の名前や用途で検索してみてください。</p><button class="secondary-button" id="reset-filters">検索と絞り込みを解除</button></div>
+      <footer class="page-footer"><span>ひとつのパーツから、画面のアイデアを。</span><span>PARTS LIBRARY <span class="footer-cross">＋</span></span></footer>
+    </main>
+  </div>
+  <dialog id="detail" class="detail-panel" aria-labelledby="detail-title"></dialog>
+  <div class="notification" id="notification" role="status" hidden></div>
+</body>
+</html>
