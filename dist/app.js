@@ -3,16 +3,9 @@ const paths={grid:'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',bookma
 const icon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.grid}"/></svg>`;
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const groups={all:'すべてのパーツ',saved:'お気に入り',overlay:'重ねて表示',navigation:'操作・移動',input:'入力・選択',information:'情報・状態'};
-const parts=[
-{id:'modal',name:'Modal dialog',ja:'モーダルダイアログ',category:'overlay',summary:'操作をいったん止めて、確認や入力を。',description:'背景の操作を一時的に止め、確認や入力に集中してもらうパネル。閉じると、元の作業に戻ります。',aliases:['確認画面','ポップアップ','重なる','背景を止める','モーダル'],use:'削除の確認、短いフォーム、重要な設定の変更。',difference:'Popoverは対象の近くに補助情報を表示します。Modal dialogは背景を操作できなくする点が特徴です。',source:'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',sourceName:'W3C · Dialog (Modal) Pattern',hint:'「コレクションを作成」を押してみてください。背景は操作できず、Escでも閉じられます。',recipe:'・開いたら入力欄へフォーカスを移す\n・Tab移動をダイアログ内に保つ\n・Escと閉じるボタンを用意する\n・閉じたら起点のボタンにフォーカスを戻す'},
-{id:'drawer',name:'Drawer',ja:'ドロワー',category:'overlay',summary:'一覧を眺めながら、右側で詳細を確認。',description:'画面の端から展開するパネル。一覧の文脈を残したまま、詳細の確認や編集に使えます。',aliases:['右から出る','サイドパネル','一覧を見ながら','スライド','詳細パネル'],use:'予約一覧から詳細を見る、注文の確認、絞り込み設定。',difference:'Drawerは表示形式の名前です。背景を操作できるものと、操作を止めるモーダル型の両方があります。',source:'https://ant.design/components/drawer/',sourceName:'Ant Design · Drawer',hint:'予約の行を押すと右側が開きます。このサンプルは背景を操作できるドロワーです。',recipe:'・モーダル型かどうかを決める\n・一覧の選択状態を表示する\n・閉じる操作とフォーカスの戻り先を用意する\n・狭い画面ではパネルを全幅にする'},
-{id:'popover',name:'Popover',ja:'ポップオーバー',category:'overlay',summary:'操作した場所のすぐ近くに、小さな補助。',description:'ボタンなどの近くに現れる小さなパネル。補足情報や、簡単な設定操作をコンパクトにまとめます。',aliases:['小さく浮く','吹き出し','近くに出る','補足','ポップオーバー'],use:'表示設定、簡単なフィルター、対象の補足情報。',difference:'Tooltipは短い説明が中心です。Popoverには入力欄やスイッチなどの操作も配置できます。',source:'https://www.radix-ui.com/primitives/docs/components/popover',sourceName:'Radix UI · Popover',hint:'「表示設定」を押すと近くにパネルが開きます。外側のクリックやEscで閉じられます。',recipe:'・起点のボタンとの位置関係を保つ\n・画面端からはみ出さないようにする\n・外側クリックとEscで閉じる\n・操作の多い内容は別の画面に分ける'},
-{id:'command',name:'Command palette',ja:'コマンドパレット',category:'navigation',summary:'やりたい操作を、文字を打って呼び出す。',description:'操作や移動先を文字で絞り込んで実行するパネル。たくさんの機能から目的の操作に素早くたどり着けます。',aliases:['コマンド','操作を検索','機能検索','キーボード','パレット'],use:'管理画面の機能検索、ページ移動、新規作成操作。',difference:'サイト内検索が情報を探すのに対し、コマンドパレットは操作や移動先を探します。',source:'https://ui.shadcn.com/docs/components/command',sourceName:'shadcn/ui · Command',hint:'「コマンドを開く」で検索できます。上下矢印で選び、Enterで実行できます。',recipe:'・操作名と別名を検索対象にする\n・上下矢印とEnterをサポートする\n・実行した結果を伝える\n・結果なしの状態を用意する'},
-{id:'table',name:'Data table',ja:'データテーブル',category:'information',summary:'たくさんの情報を、行と列で見比べる。',description:'同じ種類の情報を行と列に整理する部品。項目の比較、並べ替え、一覧管理に向いています。',aliases:['表','一覧','行と列','並べ替え','テーブル'],use:'予約管理、注文一覧、顧客情報、料金の比較。',difference:'セル単位の編集や矢印キー移動を持つData gridとは区別して、必要な挙動を記録します。',source:'https://carbondesignsystem.com/components/data-table/usage/',sourceName:'Carbon · Data table',hint:'「金額」を押すと昇順・降順を切り替えられます。チェックボックスで行を選択できます。',recipe:'・列見出しとデータの関連を保つ\n・並べ替え中の列と方向を表示する\n・複数選択時は選択件数を伝える\n・小さい画面では表を横スクロールさせる'},
-{id:'tabs',name:'Tabs',ja:'タブ',category:'navigation',summary:'同じ場所で、関連する情報を切り替える。',description:'関連する内容を、同じ領域で切り替える部品。設定や詳細情報を、まとまりごとに見せたいときに使います。',aliases:['タブ切り替え','切替','設定画面','基本情報','切り替え'],use:'基本情報・履歴・設定の切り替え、プレビューとコード。',difference:'ページ全体を移動するナビゲーションと異なり、関連する内容を一つの領域で切り替えます。',source:'https://www.w3.org/WAI/ARIA/apg/patterns/tabs/',sourceName:'W3C · Tabs Pattern',hint:'タブをクリック、または左右矢印で切り替えてください。選択した情報だけが表示されます。',recipe:'・選択中のタブを色以外でも示す\n・左右矢印とHome / Endに対応する\n・タブと対応パネルを関連付ける\n・Tabキーでパネルの操作へ移動する'},
-{id:'toast',name:'Toast',ja:'トースト通知',category:'information',summary:'作業を続けながら、結果をさりげなく知る。',description:'「保存しました」など、操作結果を短く伝える通知。ユーザーの作業を中断せず、一定時間後に消える形式がよく使われます。',aliases:['通知','保存しました','下に出る','スナックバー','完了メッセージ'],use:'保存完了、コピー完了、元に戻せる操作の結果。',difference:'重要な警告や対応必須のエラーは、消える通知だけに頼らず、その場に残るメッセージなどで伝えます。',source:'https://www.radix-ui.com/primitives/docs/components/toast',sourceName:'Radix UI · Toast',hint:'「変更を保存」で通知が出ます。6秒後に消えます。マウスやフォーカスを重ねると一時停止します。',recipe:'・支援技術にも通知の内容を伝える\n・閉じる操作を用意する\n・読むための時間を確保する\n・重要なエラーを自動で消さない'},
-{id:'date',name:'Date range picker',ja:'期間ピッカー',category:'input',summary:'カレンダーを見ながら、開始日と終了日を。',description:'開始日と終了日をまとめて選ぶ入力部品。選択した範囲をカレンダー上で確認できます。',aliases:['期間','カレンダー','日付','開始日','終了日','宿泊日'],use:'宿泊期間、売上の集計期間、予約の絞り込み。',difference:'Date pickerが一つの日付を選ぶのに対し、Date range pickerは開始日と終了日の組を扱います。',source:'https://ant.design/components/date-picker/',sourceName:'Ant Design · DatePicker / RangePicker',hint:'開始日、終了日の順で日付を押してください。選択済みの状態でもう一度押すと、新しい期間を選べます。',recipe:'・開始日と終了日を明示する\n・選択範囲を色と文字で示す\n・開始日より前を選んだ場合の動作を決める\n・キーボード入力と日付移動を用意する'}
-];
+const catalog=window.PARTS_CATALOG;
+const parts=catalog.parts;
+const examples=catalog.examples;
 function miniature(id){
 const bar='<div class="mini-bar"><i></i><i></i><i></i></div>';
 const line='<div class="mini-line"></div><div class="mini-line short"></div><div class="mini-line medium"></div>';
@@ -35,8 +28,8 @@ let filter='all',currentId=null,noticeTimer;
 const grid=document.querySelector('#parts-grid'),search=document.querySelector('#search'),detail=document.querySelector('#detail');
 function persist(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{storageAvailable=false;return false}}
 function notify(message){clearTimeout(noticeTimer);const n=document.querySelector('#notification');n.textContent=message;n.hidden=false;noticeTimer=setTimeout(()=>n.hidden=true,3500)}
-function filteredParts(){const terms=search.value.normalize('NFKC').toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);let results=parts.filter(p=>(filter==='all'||filter==='saved'&&saved.has(p.id)||p.category===filter)&&terms.every(term=>[p.name,p.ja,p.summary,p.description,p.use,...p.aliases].join(' ').normalize('NFKC').toLocaleLowerCase().includes(term)));if(document.querySelector('#sort').value==='name')results.sort((a,b)=>a.name.localeCompare(b.name));return results}
-function render(){const results=filteredParts();grid.innerHTML=results.map((p)=>`<article class="part-card"><button class="open-card" data-open="${p.id}" aria-label="${p.name}（${p.ja}）の詳細を開く"><div class="part-preview preview-${p.id}" aria-hidden="true"><span class="preview-label">${String(parts.indexOf(p)+1).padStart(2,'0')} / ${p.id.toUpperCase()}</span>${miniature(p.id)}<span class="preview-open">動作を試す ${icon('arrow')}</span></div><div class="card-info"><div class="card-heading"><h3>${p.name}</h3>${icon('arrow')}</div><div class="ja-name">${p.ja}</div><p>${p.summary}</p><div class="card-foot"><span class="category-pill">${groups[p.category]}</span><span>${icon('play')} 動作サンプル</span></div></div></button><button class="save-button ${saved.has(p.id)?'saved':''}" data-save="${p.id}" aria-label="${p.name}を${saved.has(p.id)?'お気に入りから解除':'お気に入りに保存'}" aria-pressed="${saved.has(p.id)}">${icon('bookmark')}</button></article>`).join('');
+function filteredParts(){const terms=search.value.normalize('NFKC').toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);let results=parts.filter(p=>(filter==='all'||filter==='saved'&&saved.has(p.id)||p.category===filter)&&terms.every(term=>[p.name,p.ja,p.summary,p.description,p.use,...p.aliases,...examples.filter(e=>e.partId===p.id).flatMap(e=>[e.system,e.title,e.summary,...e.features])].join(' ').normalize('NFKC').toLocaleLowerCase().includes(term)));if(document.querySelector('#sort').value==='name')results.sort((a,b)=>a.name.localeCompare(b.name));return results}
+function render(){const results=filteredParts();grid.innerHTML=results.map((p)=>`<article class="part-card"><button class="open-card" data-open="${p.id}" aria-label="${p.name}（${p.ja}）の詳細を開く"><div class="part-preview preview-${p.id}" aria-hidden="true"><span class="preview-label">${previewLabel(p)}</span>${previewMarkup(p)}<span class="preview-open">詳細を見る ${icon('arrow')}</span></div><div class="card-info"><div class="card-heading"><h3>${p.name}</h3>${icon('arrow')}</div><div class="ja-name">${p.ja}</div><p>${p.summary}</p><div class="card-foot"><span class="category-pill">${groups[p.category]}</span><span>${icon('library')} 公式実例 ${p.exampleIds.length}件</span></div></div></button><button class="save-button ${saved.has(p.id)?'saved':''}" data-save="${p.id}" aria-label="${p.name}を${saved.has(p.id)?'お気に入りから解除':'お気に入りに保存'}" aria-pressed="${saved.has(p.id)}">${icon('bookmark')}</button></article>`).join('');
 document.querySelector('#result-count').textContent=`${results.length} 件`;document.querySelector('#saved-count').textContent=saved.size;document.querySelector('#collection-title').textContent=groups[filter];document.querySelector('#breadcrumb').textContent=groups[filter];document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b.dataset.filter===filter);b.setAttribute('aria-pressed',String(b.dataset.filter===filter))});const empty=document.querySelector('#empty-state');empty.hidden=results.length>0;empty.querySelector('h3').textContent=filter==='saved'&&!search.value?'お気に入りを集めよう':'見つかりませんでした';empty.querySelector('p').textContent=filter==='saved'&&!search.value?'カード右上のブックマークから、気になるパーツを保存できます。':'別の名前や用途で検索してみてください。';applyView()}
 function applyView(){grid.classList.toggle('list-view',view==='list');['grid','list'].forEach(v=>{const b=document.querySelector(`#${v}-view`);b.classList.toggle('selected',view===v);b.setAttribute('aria-pressed',String(view===v))})}
 function toggleSaved(id){saved.has(id)?saved.delete(id):saved.add(id);const ok=persist('parts.favorites.v1',[...saved]);render();if(detail.open){const b=detail.querySelector('[data-detail-save]');b.classList.toggle('saved',saved.has(id));b.setAttribute('aria-pressed',String(saved.has(id)));b.setAttribute('aria-label',saved.has(id)?'お気に入りから解除':'お気に入りに保存')}notify(ok?(saved.has(id)?'お気に入りに保存しました':'お気に入りから解除しました'):'ブラウザーに保存できませんでした。この画面を閉じるまで保持します。')}
@@ -48,13 +41,95 @@ document.querySelector('#reset-filters').addEventListener('click',()=>{filter='a
 grid.addEventListener('click',e=>{const save=e.target.closest('[data-save]');if(save){const id=save.dataset.save;toggleSaved(id);grid.querySelector(`[data-save="${id}"]`)?.focus();return}const open=e.target.closest('[data-open]');if(open)openDetail(open.dataset.open)});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!detail.open&&!e.metaKey&&!e.ctrlKey&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();search.focus()}});
 render();
+document.querySelector('#collection-status').innerHTML='公式実例 '+examples.length+'件 <b>v0.2</b>';
 
-function openDetail(id){const p=parts.find(p=>p.id===id);if(!p)return;currentId=id;
-detail.innerHTML=`<div class="detail-toolbar"><span>パーツ詳細 · ${String(parts.indexOf(p)+1).padStart(2,'0')} / 08</span><div><button class="icon-button ${saved.has(id)?'saved':''}" data-detail-save aria-pressed="${saved.has(id)}" aria-label="${saved.has(id)?'お気に入りから解除':'お気に入りに保存'}">${icon('bookmark')}</button><button class="icon-button" data-close aria-label="詳細を閉じる" autofocus>${icon('x')}</button></div></div><div class="detail-body"><span class="detail-category">${groups[p.category]}</span><h2 id="detail-title">${p.name}</h2><div class="detail-ja">${p.ja}</div><p class="detail-description">${p.description}</p><div class="detail-tabs" role="tablist" aria-label="パーツ詳細の内容"><button role="tab" id="tab-demo" aria-controls="panel-demo" aria-selected="true" data-tab="demo">動作を試す</button><button role="tab" id="tab-notes" aria-controls="panel-notes" aria-selected="false" tabindex="-1" data-tab="notes">使い方・メモ</button></div><section role="tabpanel" id="panel-demo" aria-labelledby="tab-demo"><iframe class="demo-frame" title="${p.name} の動作サンプル" sandbox="allow-scripts"></iframe><p class="demo-caption">${p.hint}</p><div class="detail-section"><h3>こんなときに</h3><p>${p.use}</p></div><div class="detail-section"><h3>似たパーツとの違い</h3><p>${p.difference}</p></div></section><section role="tabpanel" id="panel-notes" aria-labelledby="tab-notes" hidden><div class="detail-section"><h3>実装するときのポイント</h3><div class="recipe">${p.recipe}</div></div><div class="detail-section"><label for="part-notes"><h3>気に入ったところ・使いたい場面</h3></label><textarea id="part-notes" class="notes-area" maxlength="5000" placeholder="例：一覧を残したまま詳細を確認できる。予約管理の画面で使いたい。">${esc(typeof notes[id]==='string'?notes[id]:'')}</textarea><p class="notes-help">メモとお気に入りは、このブラウザーに保存されます。</p><button class="primary-button" data-save-notes>メモを保存</button></div></section><div class="detail-section"><h3>こんな名前でも探せます</h3><div class="aliases">${p.aliases.slice(0,4).map(a=>`<span>${a}</span>`).join('')}</div></div><a class="reference-link" href="${p.source}" target="_blank" rel="noopener noreferrer"><span>${p.sourceName} ↗ 公式ドキュメント</span>${icon('external')}</a></div>`;
-detail.querySelector('iframe').srcdoc=demoDocument(id);detail.querySelector('[data-close]').addEventListener('click',()=>detail.close());detail.querySelector('[data-detail-save]').addEventListener('click',()=>toggleSaved(id));detail.querySelector('[data-save-notes]').addEventListener('click',()=>{notes[id]=detail.querySelector('#part-notes').value;notify(persist('parts.notes.v1',notes)?'メモを保存しました':'ブラウザーに保存できませんでした。この画面を閉じるまで保持します。')});
-const tabs=[...detail.querySelectorAll('[data-tab]')];const selectTab=b=>{tabs.forEach(t=>{const active=t===b;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;detail.querySelector(`#panel-${t.dataset.tab}`).hidden=!active})};tabs.forEach((b,i)=>{b.addEventListener('click',()=>selectTab(b));b.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const target=e.key==='Home'?tabs[0]:e.key==='End'?tabs[1]:tabs[1-i];selectTab(target);target.focus()})});if(!detail.open)detail.showModal();detail.scrollTop=0;document.body.style.overflow='hidden';}
-detail.addEventListener('click',e=>{if(e.target!==detail)return;const r=detail.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)detail.close()});
-detail.addEventListener('close',()=>{document.body.style.overflow='';grid.querySelector(`[data-open="${currentId}"]`)?.focus();currentId=null});
+function exampleFor(part) {
+  return examples.find(example => example.id === part.featuredExampleId);
+}
+
+function previewMarkup(part) {
+  const example = exampleFor(part);
+  return example?.image
+    ? `<img class="source-shot source-shot-${part.id}" src="${esc(example.image.path)}" alt="" loading="lazy" decoding="async">`
+    : miniature(part.id);
+}
+
+function previewLabel(part) {
+  const example = exampleFor(part);
+  return example?.image ? `${esc(example.system)} · 公式実例` : '動作サンプル';
+}
+
+function exampleCards(part) {
+  return examples.filter(example => example.partId === part.id).map(example => {
+    const image = example.image;
+    const coverage = example.verification.interactionCoverage;
+    return `<article class="example-card">
+      <div class="example-top"><span class="example-system">${esc(example.system)}</span><span>${example.kind === 'product-documentation' ? '製品の公式ガイド' : '公式サンプル'}</span></div>
+      ${image ? `<a class="example-image-link" href="${esc(image.path)}" target="_blank" rel="noopener" aria-label="${esc(example.title)}の取得画像を拡大"><img class="example-image" src="${esc(image.path)}" alt="${esc(example.title)}。${esc(image.state)}" loading="lazy"></a><p class="capture-state">取得時の状態：${esc(image.state)}</p>` : ''}
+      <h3>${esc(example.title)}</h3><p class="example-summary">${esc(example.summary)}</p>
+      <ul class="example-features">${example.features.map(feature => `<li>${esc(feature)}</li>`).join('')}</ul>
+      <div class="example-evidence"><span>出典確認 ${esc(example.checkedAt)}</span><span>${image ? '表示画像を取得済み' : '資料を確認済み'}</span></div>
+      <p class="example-check-note">${coverage === 'trigger-or-tab-only' ? '開く操作・タブ切替の範囲を確認。その他の動作は未検証です。' : '実際の操作は未検証です。'}</p>
+      <div class="example-links"><a href="${esc(example.url)}" target="_blank" rel="noopener noreferrer">公式ページで見る ${icon('external')}</a>${example.componentSourceUrl ? `<a href="${esc(example.componentSourceUrl)}" target="_blank" rel="noopener noreferrer">実装の参照先 ${icon('external')}</a>` : ''}</div>
+    </article>`;
+  }).join('');
+}
+
+function openDetail(id) {
+  const part = parts.find(part => part.id === id);
+  if (!part) return;
+  currentId = id;
+  detail.innerHTML = `<div class="detail-toolbar"><span>パーツ詳細 · ${String(parts.indexOf(part) + 1).padStart(2, '0')} / ${String(parts.length).padStart(2, '0')}</span><div><button class="icon-button ${saved.has(id) ? 'saved' : ''}" data-detail-save aria-pressed="${saved.has(id)}" aria-label="${saved.has(id) ? 'お気に入りから解除' : 'お気に入りに保存'}">${icon('bookmark')}</button><button class="icon-button" data-close aria-label="詳細を閉じる" autofocus>${icon('x')}</button></div></div>
+    <div class="detail-body"><span class="detail-category">${groups[part.category]}</span><h2 id="detail-title">${esc(part.name)}</h2><div class="detail-ja">${esc(part.ja)}</div><p class="detail-description">${esc(part.description)}</p>
+      <div class="detail-tabs" role="tablist" aria-label="パーツ詳細の内容">
+        <button role="tab" id="tab-examples" aria-controls="panel-examples" aria-selected="true" data-tab="examples">公式実例 <span class="tab-count">${part.exampleIds.length}</span></button>
+        <button role="tab" id="tab-demo" aria-controls="panel-demo" aria-selected="false" tabindex="-1" data-tab="demo">動作サンプル</button>
+        <button role="tab" id="tab-notes" aria-controls="panel-notes" aria-selected="false" tabindex="-1" data-tab="notes">使い方・メモ</button>
+      </div>
+      <section role="tabpanel" id="panel-examples" aria-labelledby="tab-examples"><p class="examples-intro">公式サイトから集めた、${esc(part.ja)}の実例。</p>${exampleCards(part)}</section>
+      <section role="tabpanel" id="panel-demo" aria-labelledby="tab-demo" hidden><p class="examples-intro">基本の動作を試すための、このライブラリ独自のサンプルです。</p><iframe class="demo-frame" title="${esc(part.name)} の動作サンプル" sandbox="allow-scripts"></iframe><p class="demo-caption">${esc(part.hint)}</p><div class="detail-section"><h3>こんなときに</h3><p>${esc(part.use)}</p></div><div class="detail-section"><h3>似たパーツとの違い</h3><p>${esc(part.difference)}</p></div></section>
+      <section role="tabpanel" id="panel-notes" aria-labelledby="tab-notes" hidden><div class="detail-section"><h3>実装するときのポイント</h3><div class="recipe">${esc(part.recipe)}</div></div><div class="detail-section"><label for="part-notes"><h3>気に入ったところ・使いたい場面</h3></label><textarea id="part-notes" class="notes-area" maxlength="5000" placeholder="例：一覧を残したまま詳細を確認できる。予約管理の画面で使いたい。">${esc(typeof notes[id] === 'string' ? notes[id] : '')}</textarea><p class="notes-help">メモとお気に入りは、このブラウザーに保存されます。</p><button class="primary-button" data-save-notes>メモを保存</button></div></section>
+      <div class="detail-section"><h3>こんな名前でも探せます</h3><div class="aliases">${part.aliases.slice(0, 4).map(alias => `<span>${esc(alias)}</span>`).join('')}</div></div><a class="reference-link" href="${esc(part.source)}" target="_blank" rel="noopener noreferrer"><span>辞書の参考資料 · ${esc(part.sourceName)}</span>${icon('external')}</a>
+    </div>`;
+  detail.querySelector('iframe').srcdoc = demoDocument(id);
+  detail.querySelector('[data-close]').addEventListener('click', () => detail.close());
+  detail.querySelector('[data-detail-save]').addEventListener('click', () => toggleSaved(id));
+  detail.querySelector('[data-save-notes]').addEventListener('click', () => {
+    notes[id] = detail.querySelector('#part-notes').value;
+    notify(persist('parts.notes.v1', notes) ? 'メモを保存しました' : 'ブラウザーに保存できませんでした。この画面を閉じるまで保持します。');
+  });
+  const tabs = [...detail.querySelectorAll('[data-tab]')];
+  const selectTab = selected => tabs.forEach(tab => {
+    const active = tab === selected;
+    tab.setAttribute('aria-selected', String(active));
+    tab.tabIndex = active ? 0 : -1;
+    detail.querySelector(`#panel-${tab.dataset.tab}`).hidden = !active;
+  });
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      selectTab(tabs[next]);
+      tabs[next].focus();
+    });
+  });
+  if (!detail.open) detail.showModal();
+  detail.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+detail.addEventListener('click', event => {
+  if (event.target !== detail) return;
+  const bounds = detail.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) detail.close();
+});
+detail.addEventListener('close', () => {
+  document.body.style.overflow = '';
+  grid.querySelector(`[data-open="${currentId}"]`)?.focus();
+  currentId = null;
+});
 
 const demoCSS=`*{box-sizing:border-box}body{margin:0;padding:22px;font:14px/1.65 system-ui,'Noto Sans JP',sans-serif;color:#34425b;background:#f3f6fc}button,input{font:inherit}button{cursor:pointer;border:1px solid #dce3ef;border-radius:6px;background:white;color:#4c5c77;padding:8px 12px;line-height:1.5}button:hover{background:#edf2fc}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #7ca0ff;outline-offset:2px}.primary{background:#2457e8;color:white;border-color:#2457e8}.primary:hover{background:#1949ce}.muted{color:#8591a6;font-size:12px}.center{min-height:290px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}.surface{background:white;border:1px solid #e0e7f1;border-radius:8px;padding:19px;width:100%}h2{font-size:18px;margin:0 0 8px}h3{font-size:15px;margin:0 0 10px}p{margin:8px 0 14px}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.badge{background:#e5f3ec;color:#387854;padding:3px 7px;font-size:11px;border-radius:15px}input[type=text],input[type=search]{width:100%;padding:9px 10px;border:1px solid #dce3ef;border-radius:5px;background:white;color:#3b4c67}input[type=checkbox]{accent-color:#2457e8;width:16px;height:16px}label{display:block;font-size:13px}dialog{border:1px solid #dce3ef;border-radius:9px;padding:22px;width:340px;max-width:calc(100% - 28px);color:#34425b;box-shadow:0 12px 40px #23375d24}dialog::backdrop{background:#21344d42}.close{padding:3px 8px;background:transparent;border:0;font-size:20px;line-height:1.2}.status{font-size:12px;color:#438169;min-height:20px}.demo-title{font-size:11px;letter-spacing:.4px;color:#96a3b8;position:absolute;top:9px;left:14px}.toast{position:fixed;bottom:20px;left:20px;right:20px;background:white;border:1px solid #bcdcca;border-radius:7px;padding:13px 15px;box-shadow:0 6px 25px #264c3315;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#3c7153}[hidden]{display:none!important}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(245px,100%);padding:20px;background:white;border-left:1px solid #dce4ef;box-shadow:-8px 0 25px #30435e15}.drawer dl{font-size:13px}.drawer dt{color:#94a0b2;font-size:11px;margin-top:15px}.drawer dd{margin:3px 0}.reservation-row{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;border:0;border-top:1px solid #edf0f5;border-radius:0;padding:13px 0}.reservation-row[aria-expanded=true]{color:#2457e8}.popover{margin:0;position:absolute;inset:auto;top:105px;left:50%;transform:translateX(-50%);padding:18px;width:245px;border:1px solid #d7e2da;border-radius:8px;background:white;box-shadow:0 8px 30px #243a2820}.popover label{display:flex;justify-content:space-between;align-items:center;margin-top:13px}.switch{appearance:none;width:32px!important;height:19px!important;border-radius:20px;background:#d2d9e6;position:relative;cursor:pointer}.switch:checked{background:#497e60}.switch:after{content:'';position:absolute;width:13px;height:13px;background:white;border-radius:50%;top:3px;left:3px;transition:left .15s}.switch:checked:after{left:16px}.commands{display:grid;gap:4px;margin-top:10px}.commands button{text-align:left;border:0;font-size:13px;padding:9px}.commands button.active{background:#edf2ff;color:#2457e8}table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}th,td{text-align:left;padding:10px 7px;border-bottom:1px solid #e9edf4}th{font-size:11px;color:#8c99ac;font-weight:500}th button{font-size:11px;padding:0;border:0;color:#667998}td:first-child,th:first-child{padding-left:0}.table-wrap{overflow:auto}.tabs{display:flex;gap:21px;border-bottom:1px solid #e5eaf3;margin:14px 0 17px}.tabs button{border:0;border-radius:0;padding:8px 0;background:transparent;font-size:13px;color:#8894a7;border-bottom:2px solid transparent}.tabs button[aria-selected=true]{color:#2457e8;border-bottom-color:#2457e8}.tab-content{padding:15px;border:1px solid #e8ecf4;border-radius:6px;min-height:95px}.calendar{max-width:350px;margin:auto;background:white;border:1px solid #e0e5ef;border-radius:8px;padding:14px}.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.calendar-head button{border:0;padding:2px 9px;font-size:18px}.calendar-head b{font-size:13px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}.days button{border:0;background:transparent;border-radius:4px;padding:3px 0;font-size:12px;min-height:27px}.days button:hover{background:#e8eefa}.days button.range{background:#e9effe;border-radius:0;color:#2457e8}.days button.edge{background:#2457e8;color:white}.weekday{text-align:center;font-size:10px;color:#9aabc1;padding-bottom:4px}.range-summary{font-size:11px;text-align:center;color:#54719d;line-height:1.6;margin:10px 0 0}.calendar input[type=date]{font:11px system-ui;min-width:0;width:100%;padding:4px 0;border:1px solid #e0e5ef;border-radius:3px}.date-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.date-inputs label{font-size:10px;color:#8e9cb1}.help{font-size:11px;color:#8d9bb0;margin-top:8px}@media(max-width:350px){body{padding:16px}.surface{padding:13px}.tabs{gap:15px}.calendar{padding:10px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}`;
 function demoContent(id){switch(id){
