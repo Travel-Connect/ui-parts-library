@@ -1,0 +1,2 @@
+# The generated catalog is compared byte-for-byte on every platform.
+dist/data/catalog.js text eol=lf
